@@ -1,0 +1,69 @@
+import copy
+import time
+
+def display(mylist,daynumber):
+  print("Day",daynumber,end="")
+  print()
+  for r in range(len(mylist)):
+    for c in range(len(mylist[r])):
+      print(mylist[r][c],end="")
+    print()
+  time.sleep(1)
+
+def update(mylist,column,row):
+  copy_mylist=copy.deepcopy(mylist)
+  for r in range(len(mylist)):
+    for c in range(len(mylist[r])):
+      if r-1>-1:
+        if mylist[r-1][c]==1:
+          if mylist[r][c]!=1:
+            copy_mylist[r][c]=1
+      if r+1<row:
+        if mylist[r+1][c]==1:
+          if mylist[r][c]!=1:
+            copy_mylist[r][c]=1
+      if c-1>-1:
+        if mylist[r][c-1]==1:
+          if mylist[r][c]!=1:
+            copy_mylist[r][c]=1
+      if c+1<column:
+        if mylist[r][c+1]==1:
+          if mylist[r][c]!=1:
+            copy_mylist[r][c]=1
+  mylist=copy_mylist
+  
+  return mylist
+  
+
+
+
+rowandcolumn=input("Enter row and column sizes: ")
+row,column=rowandcolumn.split()
+column=int(column)
+row=int(row)
+mylist=[[0 for i in range(column)]for j in range(row)]
+position=input("Enter cell position: ")
+positionx,positiony=position.split()
+positionx=int(positionx)
+positiony=int(positiony)
+mylist[positionx][positiony]=1
+daynumber=0
+display(mylist,daynumber)
+print()
+while True:
+  zerobreak=False
+  for r in range(len(mylist)):
+    for c in range(len(mylist[r])):
+      if mylist[r][c]==0:
+        returnedlist=update(mylist,column,row)
+        mylist=returnedlist
+        daynumber=daynumber+1
+        display(returnedlist,daynumber)
+        print()
+        zerobreak=True
+        break
+    if zerobreak==True:
+      break
+  if zerobreak==False:
+    break
+print("Total",daynumber,"days")
